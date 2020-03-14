@@ -1,2 +1,20 @@
 # vasiliev-alexey_infra
 vasiliev-alexey Infra repository
+
+**Домашнее задаание по теме №5**
+
+bastion_IP = 35.246.100.145
+someinternalhost_IP    = 10.154.0.3
+
+Создана конфигурация в GCP:
+
+Хост      | ip ext |   ip int
+:-------- |:-----:|  :-----:|
+bastion  | 35.246.100.145  |  10.154.0.2|
+someinternalhost  |-   | 10.154.0.3   |
+
+ДЗ1:
+`export bastion_ip=35.246.100.145
+export someinternalhost_ip=10.154.0.3
+export hostuser=appuser
+ssh -i ~/.ssh/$hostuser -A -J $hostuser@$bastion_ip $hostuser@$someinternalhost_ip`
