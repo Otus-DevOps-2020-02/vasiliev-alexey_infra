@@ -17,7 +17,7 @@ someinternalhost  |-   | 10.154.0.3   |
 Создан пользователь тест, с организацией otus.
 [Конфигурация для подключения ](cloud-bastion.ovpn)
 
-ДЗ1:
+ДЗ:
 
     export bastion_ip=35.246.100.145
     export someinternalhost_ip=10.154.0.3
@@ -37,4 +37,5 @@ someinternalhost  |-   | 10.154.0.3   |
         IdentityFile ~/.ssh/appuser
 
 ДЗ2*:
-
+Прикручен сертификат Let's Enccrypt
+Вход по URL https://35-246-100-145.sslip.io
