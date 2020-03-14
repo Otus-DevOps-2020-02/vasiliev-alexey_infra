@@ -13,6 +13,10 @@ someinternalhost_IP    = 10.154.0.3
 bastion  | 35.246.100.145  |  10.154.0.2|
 someinternalhost  |-   | 10.154.0.3   |
 
+[Установлен  vpn сервер pritunl](setupvpn.sh), открыт порт 13211/udp
+Создан пользователь тест, с организацией otus.
+[Конфигурация для подключения ](cloud-bastion.ovpn)
+
 ДЗ1:
 
     export bastion_ip=35.246.100.145
@@ -31,3 +35,6 @@ someinternalhost  |-   | 10.154.0.3   |
         ProxyJump bastion
         User appuser
         IdentityFile ~/.ssh/appuser
+
+ДЗ2*:
+
