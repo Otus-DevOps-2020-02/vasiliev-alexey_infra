@@ -2,7 +2,7 @@
 vasiliev-alexey Infra repository
 
 **Домашнее задаание по теме №6**  
-testapp_IP = 146.148.17.212   
+testapp_IP = 146.148.17.212  
 testapp_port = 9292
 
 [Создаем VM в GCP](create_gcp_vm.sh)
@@ -16,7 +16,7 @@ testapp_port = 9292
 
 [Устанвливаем MongoDB](install_mongodb.sh)  
 
-        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0xd68fa50fea312927
         echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
         sudo apt-get update
         sudo apt install -y --allow-unauthenticated mongodb-org
