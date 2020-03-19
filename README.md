@@ -41,9 +41,25 @@ testapp_port = 9292
         curl -s -o /dev/null -w "%{http_code}" http://146.148.17.212:9292/
 
 
+
+
+ДЗ1*
+[Создаем все вместе ](startup-script.sh)  
   
+    gcloud compute instances create reddit-app\
+    --boot-disk-size=10GB \
+    --image-family ubuntu-1604-lts \
+    --image-project=ubuntu-os-cloud \
+    --machine-type=g1-small \
+    --tags puma-server \
+    --restart-on-failure\
+    --metadata-from-file\
+    startup-script=startup-script.sh
 
 
+ДЗ2* : Создаем правило  firewall
+ 
+    gcloud compute firewall-rules create default-puma-server --allow tcp:9292 --target-tags=puma-server
 
 
 **Домашнее задаание по теме №5**
