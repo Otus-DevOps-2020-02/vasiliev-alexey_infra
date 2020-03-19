@@ -1,7 +1,8 @@
 # vasiliev-alexey_infra
 vasiliev-alexey Infra repository
 
-**Домашнее задаание по теме №6**  
+
+###  **Домашнее задаание по теме №6**  
 testapp_IP = 146.148.17.212  
 testapp_port = 9292
 
@@ -61,8 +62,10 @@ testapp_port = 9292
  
     gcloud compute firewall-rules create default-puma-server --allow tcp:9292 --target-tags=puma-server
 
+___
 
-**Домашнее задаание по теме №5**
+
+### **Домашнее задаание по теме №5**
 
 bastion_IP = 35.246.100.145
 someinternalhost_IP    = 10.154.0.3
