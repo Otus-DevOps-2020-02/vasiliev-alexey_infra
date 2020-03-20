@@ -2,20 +2,44 @@
 vasiliev-alexey Infra repository
 
 
+###  **Домашнее задаание по теме №7**  
+
+1. Устанвливаем  Packer  по инструкции от вендора.
+        
+        packer -v
+
+2. Даем доступ Application Default Credentials  
+   
+        gcloud auth application-default login
+  
+3. [Создаем конфиг packer](packer/ubuntu16.json)
+4. Валидируем созданный конфиг  
+
+        packer validate ./ubuntu16.json
+5. Собираем образ по [конфигу](packer/ubuntu16.json) 
+
+        packer build ubuntu16.json
+
+        ps Иногда не успевает  VM развернутся, перед апдейтом - возникают ошибки - добавил задержку в 20 секунд
+
+6. Создаем  VM из web-console, прописываем правило firewall. Развертываем приложение.
+
+
+
 ###  **Домашнее задаание по теме №6**  
 testapp_IP = 146.148.17.212  
 testapp_port = 9292
 
-[Создаем VM в GCP](create_gcp_vm.sh)
+[Создаем VM в GCP](config-scripts/create_gcp_vm.sh)
 
     
     
 
-[Устанвливаем Ruby](install_ruby.sh)  
+[Устанвливаем Ruby](config-scripts/install_ruby.sh)  
         
         sudo apt update && sudo apt install -y ruby-full ruby-bundler build-essential
 
-[Устанвливаем MongoDB](install_mongodb.sh)  
+[Устанвливаем MongoDB](config-scripts/install_mongodb.sh)  
 
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0xd68fa50fea312927
         sudo bash -c 'echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.2.list' sudo apt-get update
@@ -26,7 +50,7 @@ testapp_port = 9292
         sudo systemctl enable mongod
 
 
-[Деплой приложения](deploy_mongodb.sh)  
+[Деплой приложения](config-scripts/deploy_mongodb.sh)  
 
         cd ~
         git clone -b monolith https://github.com/express42/reddit.git
@@ -45,7 +69,7 @@ testapp_port = 9292
 
 
 ДЗ1*
-[Создаем все вместе ](startup-script.sh)  
+[Создаем все вместе ](config-scripts/startup-script.sh)  
   
     gcloud compute instances create reddit-app\
     --boot-disk-size=10GB \
@@ -77,9 +101,9 @@ someinternalhost_IP    = 10.154.0.3
 bastion  | 35.246.100.145  |  10.154.0.2|
 someinternalhost  |-   | 10.154.0.3   |
 
-[Установлен  vpn сервер pritunl](setupvpn.sh), открыт порт 13211/udp
+[Установлен  vpn сервер pritunl](VPN/setupvpn.sh), открыт порт 13211/udp
 Создан пользователь тест, с организацией otus.
-[Конфигурация для подключения ](cloud-bastion.ovpn)
+[Конфигурация для подключения ](VPN/loud-bastion.ovpn)
 
 ДЗ:
 
