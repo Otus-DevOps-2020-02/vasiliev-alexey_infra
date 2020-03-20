@@ -1,0 +1,38 @@
+{
+    "builders": [
+        {
+            "type": "googlecompute",
+            "project_id": "{{user `project_id`}}",
+            "image_name": "reddit-full",
+            "source_image": "reddit-base-1584682928",
+            "image_family": "reddit-full",
+            "source_image_family": "{{user `source_image_family`}}",
+            "zone": "europe-west1-b",
+            "ssh_username": "appuser",
+            "machine_type": "{{user `machine_type`}}",
+            "image_description": "Образ  reddit-full для DevOpsOtus",
+            "tags": ["puma-server"]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "scripts/deploy.sh",
+            "execute_command": "{{.Path}}"
+        },
+        {
+            "type": "file",
+            "source": "files/puma.service",
+            "destination": "/tmp/puma.service"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "mv /tmp/puma.service /etc/systemd/system/puma.service",
+                "systemctl enable puma.service",
+                "systemctl start puma.service"
+            ],
+            "execute_command": "sudo {{.Vars}} {{.Path}}"
+        }
+    ]
+}

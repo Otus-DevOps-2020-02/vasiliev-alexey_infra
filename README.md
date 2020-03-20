@@ -2,7 +2,7 @@
 vasiliev-alexey Infra repository
 
 
-
+___
 ###  **Домашнее задаание по теме №7**  
 
 1. Устанвливаем  Packer  по инструкции от вендора.
@@ -16,22 +16,34 @@ vasiliev-alexey Infra repository
 3. [Создаем конфиг packer](packer/ubuntu16.json)
 4. Валидируем созданный конфиг  
 
-        packer validate ./ubuntu16.json
+        packer validate -var-file=./variables.json ./ubuntu16.json
 5. Собираем образ по [конфигу](packer/ubuntu16.json) 
 
-        packer build ubuntu16.json
+        packer build -var-file=./variables.json ubuntu16.json
 
         ps Иногда не успевает  VM развернутся, перед апдейтом - возникают ошибки - добавил задержку в 20 секунд
 
 6. Создаем  VM из web-console, прописываем правило firewall. Развертываем приложение.
   
-  
-    
-     
+ДЗ1* [Создаем базовую конфигурацию](packer/immutable.json)
+
+Используя DSL -  внедряем занчения переменных  
+
+         "{{user `machine_type`}}"
+
+[Имитация конфига секретов](packer/variables.json.example)
+
+ДЗ2* : [Создаем VM из образа  ДЗ1*](config-scripts/create-reddit-vm.sh)
+ 
+        gcloud compute instances create reddit-app-full\
+        --boot-disk-size=10GB \
+        --image-family reddit-full  \
+        --machine-type=g1-small \
+        --restart-on-failure\
+        --tags='puma-server'
 
 
-     
-
+___
 
 ###  **Домашнее задаание по теме №6**  
 testapp_IP = 146.148.17.212  
@@ -104,10 +116,10 @@ someinternalhost_IP    = 10.154.0.3
 
 Создана конфигурация в GCP:
 
-Хост      | ip ext |   ip int
-:-------- |:-----:|  :-----:|
-bastion  | 35.246.100.145  |  10.154.0.2|
-someinternalhost  |-   | 10.154.0.3   |
+| Хост             |     ip ext     |   ip int   |
+| :--------------- | :------------: | :--------: |
+| bastion          | 35.246.100.145 | 10.154.0.2 |
+| someinternalhost |       -        | 10.154.0.3 |
 
 [Установлен  vpn сервер pritunl](VPN/setupvpn.sh), открыт порт 13211/udp
 Создан пользователь тест, с организацией otus.
