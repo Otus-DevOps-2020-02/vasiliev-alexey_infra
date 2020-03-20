@@ -2,6 +2,7 @@
 vasiliev-alexey Infra repository
 
 
+
 ###  **Домашнее задаание по теме №7**  
 
 1. Устанвливаем  Packer  по инструкции от вендора.
@@ -30,9 +31,12 @@ vasiliev-alexey Infra repository
 
 
      
+
+
 ###  **Домашнее задаание по теме №6**  
 testapp_IP = 146.148.17.212  
 testapp_port = 9292
+
 
 [Создаем VM в GCP](config-scripts/create_gcp_vm.sh)
 
