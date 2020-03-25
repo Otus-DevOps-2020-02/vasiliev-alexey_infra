@@ -8,14 +8,34 @@ ___
 
 1. Устанавливаем Terraform - скачиваением бинарников и помещении его в  каталог поиска исполняемых файлов.
 2. Создаем [конфиг](terraform/main.tf) 
-3. Сконфигурировали [out  переменные](terraform/main.tf)
+3. Сконфигурировали [out  переменные](terraform/outputs.tf)
+4. Конфигугурируем Provisioners  
+
+        provisioner "file" {
+        source      = "files/puma.service"
+        destination = "/tmp/puma.service"
+        }
+
+        provisioner "remote-exec" {
+        script = "files/deploy.sh"
+        }
+5. Добавляем [Input vars](terraform/variables.tf)
+6. Добавляем [переменные](terraform/terraform.tfvars.example)
+7. Реконфигурируем конфиг, для использования переменных
+
+ДЗ1* Добавляем нескольких пользователей  
+
+        metadata = {
+        ssh-keys = "appuser:${file(var.public_key_path)}\nappuser1:${file(var.public_key_path)}\nappuser2:${file(var.public_key_path)}"
+        }
+При  добавлении через WEB-консоль и последующей синхронизацией - данные  про ключи, теряются
 
 Note:
 Для корректной работы
 рекомендуется указывать версию терраформа ~> 0.12.0 и
 провайдера google ~> 2.5.0
 
-стр51
+стр52
 ___
 ###  **Домашнее задаание по теме №7**  
 

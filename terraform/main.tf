@@ -23,10 +23,10 @@ resource "google_compute_instance" "app" {
     }
   }
 
-  metadata = {
-    # путь до публичного ключа
-    ssh-keys = "appuser:${file(var.public_key_path)}"
+metadata = {
+    ssh-keys = "appuser:${file(var.public_key_path)}\nappuser1:${file(var.public_key_path)}\nappuser2:${file(var.public_key_path)}"
   }
+  #\nappuser1:${file(var.public_key_path)}
 
   network_interface {
     network = "default"
@@ -43,6 +43,9 @@ resource "google_compute_instance" "app" {
     private_key = file(var.private_key_path)
   }
 
+
+
+
   provisioner "file" {
     source      = "files/puma.service"
     destination = "/tmp/puma.service"
@@ -53,7 +56,10 @@ resource "google_compute_instance" "app" {
   }
 
 }
-
+#resource "google_compute_project_metadata_item" "ssh-keys" {
+#  key   = "ssh-keys"
+#  value = "appuser1:${file(var.public_key_path)}"
+#}
 
 resource "google_compute_firewall" "firewall_puma" {
   name = "allow-puma-default"
