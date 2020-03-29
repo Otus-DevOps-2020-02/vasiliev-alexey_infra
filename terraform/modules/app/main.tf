@@ -17,6 +17,41 @@ resource "google_compute_instance" "app" {
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
 
+  connection {
+    type        = "ssh"
+    host        = self.network_interface[0].access_config[0].nat_ip
+    user        = "appuser"
+    agent       = false
+    private_key = file(var.private_key_path)
+  }
+
+ #provisioner "local-exec" {
+#    command  = "sed -i \"s/changeOnDeploy/${var.db_ip_address}/\" ${path.module}/puma.service"
+#  }
+
+
+ provisioner "file" {
+    source      = "${path.module}/puma.service"
+    destination = "/tmp/puma.service"
+  }
+
+ 
+ provisioner "remote-exec" {
+    inline = [
+      "sed -i \"s/changeOnDeploy/${var.db_ip_address}/\" /tmp/puma.service",
+    ]
+  }
+
+
+
+ provisioner "remote-exec" {
+   script = "${path.module}/deploy.sh"
+  }
+
+
+
+
+
 }
 
 resource "google_compute_address" "app_ip" {

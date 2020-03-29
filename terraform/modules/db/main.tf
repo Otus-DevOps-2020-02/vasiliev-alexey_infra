@@ -16,6 +16,24 @@ metadata = {
     network = "default"
      access_config {}
   }
+
+  connection {
+    type        = "ssh"
+    host        = self.network_interface[0].access_config[0].nat_ip
+    user        = "appuser"
+    agent       = false
+    private_key = file(var.private_key_path)
+  }
+
+  # Deploy app
+  provisioner "remote-exec" {
+    inline = [
+     "sudo curl -s https://raw.githubusercontent.com/oscm/shell/master/database/mongodb/mongodb-2.x/net.bindIp.all.sh | sudo bash"
+    ]
+  }
+
+
+
 }
 
 
@@ -27,5 +45,5 @@ resource "google_compute_firewall" "firewall_mongo" {
     ports = ["27017"]
   }
   target_tags = ["reddit-db"]
-  source_tags = ["reddit-app"]
+   source_ranges = ["0.0.0.0/0"]
 }

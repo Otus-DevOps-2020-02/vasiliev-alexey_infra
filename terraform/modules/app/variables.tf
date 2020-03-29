@@ -11,3 +11,11 @@ variable app_disk_image {
   description = "Disk image for reddit app"
   default     = "reddit-app-base"
 }
+
+variable private_key_path {
+  description = "Path to the private key"
+}
+
+variable db_ip_address {
+   description = "mongo ip"
+}
