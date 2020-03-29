@@ -1,6 +1,14 @@
 # vasiliev-alexey_infra
 vasiliev-alexey Infra repository
 
+___
+###  **Домашнее задаание по теме №9**  
+
+1. Импортировали в State terraform  инфраструктуру GCP  firewall
+
+        terraform import google_compute_firewall.firewall_ssh default-allow-ssh
+2. Научились создавать зависимости между ресурами инфраструктуры проекта TF
+3. Раздлили однонодовую конфигурацию на 2 нодовую. путем разбиения на несколько инфраструктур в terraform
 
 
 ___
@@ -28,12 +36,14 @@ ___
         metadata = {
         ssh-keys = "appuser:${file(var.public_key_path)}\nappuser1:${file(var.public_key_path)}\nappuser2:${file(var.public_key_path)}"
         }
-При  добавлении через WEB-консоль и последующей синхронизацией - данные  про ключи, теряются
+  При  добавлении через WEB-консоль и последующей синхронизацией - данные  про ключи, теряются
 
 Note:
 Для корректной работы
 рекомендуется указывать версию терраформа ~> 0.12.0 и
 провайдера google ~> 2.5.0
+
+ДЗ1** [Добавляем  балансировщик](terraform/lb.tf)
 
 стр52
 ___
