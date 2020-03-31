@@ -1,15 +1,36 @@
 # vasiliev-alexey_infra
 vasiliev-alexey Infra repository
 
+___
+###  **Домашнее задаание по теме №9**
+
+1. Импортировали в State terraform  инфраструктуру GCP  firewall
+
+        terraform import google_compute_firewall.firewall_ssh default-allow-ssh
+2. Научились создавать зависимости между ресурами инфраструктуры проекта TF
+3. Раздлили однонодовую конфигурацию на 2 нодовую. путем разбиения на несколько инфраструктур в terraform
+4. Конфигурацию разбили на  3 модуля -  app db vpc -  параметризировали их.
+5. На основе модулй - создали 2    сред -  stage и  prod
+6.  Изучили реестр модулей на примере storage-bucket
+
+ДЗ*  Созданы  конфигурации для удаленого хранения [состояния](terraform/prod/backend.tf)
+        1. Проверено  что состояние обнаруживается через  storage bucket
+        2. Паралельное измнение поймать не удалось
+
+
+ДЗ** В модуль app добавлены provisioners для деплоя приложения. Хост db-service передается в app-service и добавляется в  systemd  конфиг puma.service.
+ В db-service - открыты адреса для подключения
+
+
 
 
 ___
-###  **Домашнее задаание по теме №8**  
+###  **Домашнее задаание по теме №8**
 
 1. Устанавливаем Terraform - скачиваением бинарников и помещении его в  каталог поиска исполняемых файлов.
-2. Создаем [конфиг](terraform/main.tf) 
+2. Создаем [конфиг](terraform/main.tf)
 3. Сконфигурировали [out  переменные](terraform/outputs.tf)
-4. Конфигугурируем Provisioners  
+4. Конфигугурируем Provisioners
 
         provisioner "file" {
         source      = "files/puma.service"
@@ -23,52 +44,54 @@ ___
 6. Добавляем [переменные](terraform/terraform.tfvars.example)
 7. Реконфигурируем конфиг, для использования переменных
 
-ДЗ1* Добавляем нескольких пользователей  
+ДЗ1* Добавляем нескольких пользователей
+
 
         metadata = {
         ssh-keys = "appuser:${file(var.public_key_path)}\nappuser1:${file(var.public_key_path)}\nappuser2:${file(var.public_key_path)}"
         }
 При  добавлении через WEB-консоль и последующей синхронизацией - данные  про ключи, теряются
 
+
 Note:
 Для корректной работы
 рекомендуется указывать версию терраформа ~> 0.12.0 и
 провайдера google ~> 2.5.0
 
-стр52
+
 ___
-###  **Домашнее задаание по теме №7**  
+###  **Домашнее задаание по теме №7**
 
 1. Устанвливаем  Packer  по инструкции от вендора.
-        
+
         packer -v
 
-2. Даем доступ Application Default Credentials  
-   
+2. Даем доступ Application Default Credentials
+
         gcloud auth application-default login
-  
+
 3. [Создаем конфиг packer](packer/ubuntu16.json)
-4. Валидируем созданный конфиг  
+4. Валидируем созданный конфиг
 
         packer validate -var-file=./variables.json ./ubuntu16.json
-5. Собираем образ по [конфигу](packer/ubuntu16.json) 
+5. Собираем образ по [конфигу](packer/ubuntu16.json)
 
         packer build -var-file=./variables.json ubuntu16.json
 
         ps Иногда не успевает  VM развернутся, перед апдейтом - возникают ошибки - добавил задержку в 20 секунд
 
 6. Создаем  VM из web-console, прописываем правило firewall. Развертываем приложение.
-  
+
 ДЗ1* [Создаем базовую конфигурацию](packer/immutable.json)
 
-Используя DSL -  внедряем занчения переменных  
+Используя DSL -  внедряем занчения переменных
 
          "{{user `machine_type`}}"
 
 [Имитация конфига секретов](packer/variables.json.example)
 
 ДЗ2* : [Создаем VM из образа  ДЗ1*](config-scripts/create-reddit-vm.sh)
- 
+
         gcloud compute instances create reddit-app-full\
         --boot-disk-size=10GB \
         --image-family reddit-full  \
@@ -79,21 +102,21 @@ ___
 
 ___
 
-###  **Домашнее задаание по теме №6**  
-testapp_IP = 146.148.17.212  
+###  **Домашнее задаание по теме №6**
+testapp_IP = 146.148.17.212
 testapp_port = 9292
 
 
 [Создаем VM в GCP](config-scripts/create_gcp_vm.sh)
 
-    
-    
 
-[Устанвливаем Ruby](config-scripts/install_ruby.sh)  
-        
+
+
+[Устанвливаем Ruby](config-scripts/install_ruby.sh)
+
         sudo apt update && sudo apt install -y ruby-full ruby-bundler build-essential
 
-[Устанвливаем MongoDB](config-scripts/install_mongodb.sh)  
+[Устанвливаем MongoDB](config-scripts/install_mongodb.sh)
 
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0xd68fa50fea312927
         sudo bash -c 'echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.2.list' sudo apt-get update
@@ -104,18 +127,18 @@ testapp_port = 9292
         sudo systemctl enable mongod
 
 
-[Деплой приложения](config-scripts/deploy_mongodb.sh)  
+[Деплой приложения](config-scripts/deploy_mongodb.sh)
 
         cd ~
         git clone -b monolith https://github.com/express42/reddit.git
         cd reddit && bundle install
         puma -d
-Создаем  правило firewall  
+Создаем  правило firewall
 
         gcloud compute firewall-rules create default-puma-server --allow tcp:9292 --target-tags=puma-server
 
- 
-Тестим  
+
+Тестим
 
         curl -s -o /dev/null -w "%{http_code}" http://146.148.17.212:9292/
 
@@ -123,8 +146,8 @@ testapp_port = 9292
 
 
 ДЗ1*
-[Создаем все вместе ](config-scripts/startup-script.sh)  
-  
+[Создаем все вместе ](config-scripts/startup-script.sh)
+
     gcloud compute instances create reddit-app\
     --boot-disk-size=10GB \
     --image-family ubuntu-1604-lts \
@@ -137,7 +160,7 @@ testapp_port = 9292
 
 
 ДЗ2* : Создаем правило  firewall
- 
+
     gcloud compute firewall-rules create default-puma-server --allow tcp:9292 --target-tags=puma-server
 
 ___
@@ -168,7 +191,7 @@ someinternalhost_IP    = 10.154.0.3
 
 ДЗ1*:
 Создаем конфиг ~/.ssh/config
-    
+
     Host bastion
         HostName 35.246.100.145
         User appuser
