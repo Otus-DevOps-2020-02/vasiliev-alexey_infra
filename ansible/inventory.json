@@ -1,10 +1,10 @@
 {
-    "appserver": {
+    "app": {
         "hosts": [
             "app_host"
         ]
     },
-    "dbserver": [
+    "db": [
         "db_host"
     ],
     "_meta": {
