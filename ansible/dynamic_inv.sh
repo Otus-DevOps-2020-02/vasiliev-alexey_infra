@@ -4,10 +4,10 @@ if [ "$#" -ne 1 ]; then
     echo "Illegal number of parameters"
 fi
 
-if [[ $1 == '--host' ]]
+if [[ $1 = '--host' ]]
 then
     echo "[]"
-elif    [[ $1  == "--list" ]]
+elif    [[ $1  = "--list" ]]
 then
     cat inventory.json
 else
