@@ -8,3 +8,9 @@ variables.json
 *.tfstate.backup
 *.tfvars
 .terraform/
+
+#ansible
+*.retry
+
+#sac
+gcloud_av_acount.json
