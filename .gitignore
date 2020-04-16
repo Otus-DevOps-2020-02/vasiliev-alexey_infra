@@ -11,6 +11,8 @@ variables.json
 
 #ansible
 *.retry
+jdauphant.nginx
+vault.key
 
 #sac
 gcloud_av_acount.json

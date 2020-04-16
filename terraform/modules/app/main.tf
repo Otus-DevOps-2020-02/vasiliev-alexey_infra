@@ -35,7 +35,7 @@ resource "google_compute_instance" "app" {
     destination = "/tmp/puma.service"
   }
 
- 
+
  provisioner "remote-exec" {
     inline = [
       "sed -i \"s/changeOnDeploy/${var.db_ip_address}/\" /tmp/puma.service",
@@ -63,7 +63,7 @@ resource "google_compute_firewall" "firewall_puma" {
   network = "default"
   allow {
     protocol = "tcp"
-    ports    = ["9292"]
+    ports    = ["9292", "80"]
   }
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["reddit-app"]
