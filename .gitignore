@@ -13,6 +13,7 @@ variables.json
 *.retry
 jdauphant.nginx
 vault.key
+venv/
 
 # Vagrant & molecule
 .vagrant/
